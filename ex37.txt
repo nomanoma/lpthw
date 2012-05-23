@@ -1,0 +1,122 @@
+Определение
+-----------
+Итератор    -- объект, представляющий поток данных. Нарпимер, в "for i in list:" i -- итератор
+Генератор   -- итераторы, генерирующие значение на лету. "gen = (x*x for x in range(3)); for i in gen:" gen -- генератор
+
+Ключевые слова
+--------------
+and         -- логическое И
+del         -- удалить элемент из списка по индексу, или удалить перменную
+from        -- импортировать некоторые аттрибуты из модуля в текущее пространство имен
+not         -- логическое НЕ
+while       -- цикл вида "Пока условие не выполнено, повторять"
+as          -- импортировать модуль и сопоставить ему произвольное имя
+elif        -- проверить последующие условия, если первое условие в if не выполнено
+global      -- указание работать с глобвально переменной
+or          -- логическое ИЛИ
+with        -- используется чтобы обернуть испоняемый блок методами, определенными контекстным менеджером
+               позволяет инкапсулировать try...except...finally для удобного повторного использования
+assert      -- удобный способ вставить отладочные утверждения в программу
+else        -- выполняется если никакие условия в if и/или elif не выполнены
+pass        -- ничего не делает, нужен в случае когда синтаксически нужна инструкция, а логически не нужна
+yield       -- ключевое слово, использующиеся аналогично return, за исключением того, что функция вернет генератор
+break       -- выходит из последнего цикла
+except      -- опделяет блок кода, выполняющегося в случае исключения
+import      -- импортирует модуль
+print       -- распечатывает значение на экране
+class       -- определяет класс
+exec        -- исполняет переданный код, например в виде строки
+in          -- позволяет поитерироваться через все члены коллекции
+raise       -- если в текущеий области видимосте есть исключения, то вызывает последнее исключение. 
+               если нету, то вызывает исключение TypeError
+continue    -- позволяет продолжить выполнение текущего блока
+finally     -- в конструкции try: catch: выполняет код в любом случае
+is          -- проверяет идентичность объектов
+return      -- возвращает значение при выходе из функции
+for         -- оператор для создания цикла
+lambda      -- позволяет создать анонимную фукнцию
+try         -- позволяет обрабатывать исключения
+
+Типы данных
+-----------
+
+
+Примеры
+-------
+
+with    -- используется чтобы обернуть испоняемый блок методами, определенными контекстным менеджером 
+----       позволяет инкапсулировать try...except...finally для удобного повторного использования
+
+with open('output.txt', 'w') as f:
+    f.write('Hi there!')
+Here’s the first approach. To implement a context manager, we define a class containing 
+an __enter__ and __exit__ method. The class below accepts a cairo context, cr, in its constructor:
+
+class Saved():
+    def __init__(self, cr):
+        self.cr = cr
+    def __enter__(self):
+        self.cr.save()
+        return self.cr
+    def __exit__(self, type, value, traceback):
+        self.cr.restore()
+
+Thanks to those two methods, it’s valid to instantiate a Saved object and use it in a with statement. 
+The Saved object is considered to be the context manager.
+
+cr.translate(68, 68)
+for i in xrange(6):
+    with Saved(cr):
+        cr.rotate(2 * math.pi * i / 6)
+        cr.rectangle(-25, -60, 50, 40)
+        cr.stroke()
+
+assert  -- удобный способ вставить отладочные утверждения в программу
+-----
+
+def add(self, id, name):
+    assert type(id) is IntType, "id is not an integer: %s" % `id`
+
+yield   -- ключевое слово, использующиеся аналогично return, за исключением того, что функция вернет генератор
+-----
+
+>>> def createGenerator() :
+...    mylist = range(3)
+...    for i in mylist :
+...        yield i*i
+...
+>>> mygenerator = createGenerator() # create a generator
+>>> print(mygenerator) # mygenerator is an object!
+<generator object createGenerator at 0xb7555c34>
+>>> for i in mygenerator:
+...     print(i)
+
+continue    -- позволяет продолжить выполнение текущего блока
+--------
+
+for x, y in zip(a, b):
+    if x <= y:
+        continue
+    z = calculate_z(x, y)
+    if y - z >= x:
+        continue
+    y = min(y, z)
+    if x ** 2 - y ** 2 <= 0:
+        continue
+    lots()
+    of()
+    code()
+    here()
+
+lambda      -- позволяет создать анонимную фукнцию
+------
+
+>>> def f (x): return x**2
+... 
+>>> print f(8)
+64
+>>> 
+>>> g = lambda x: x**2
+>>> 
+>>> print g(8)
+64
